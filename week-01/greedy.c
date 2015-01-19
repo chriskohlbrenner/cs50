@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 int main(void)
 {
@@ -14,44 +15,48 @@ int main(void)
   }
   while (change < 0);
 
-  do
-  {
-    if (change >= 0.25)
-    {
-      change = change - 0.25;
-      quarters++;
-    }
-  }
-  while (change >= 0.25);
-  do
-  {
-    if (change >= 0.10)
-    {
-      change = change - 0.10;
-      dimes++;
-    }
-  }
-  while (change >= 0.10);
-  
-  do
-  {
-    if (change >= 0.05)
-    {
-      change = change - 0.05;
-      nickels++;
-    }
-  }
-  while (change >= 0.05);
+  // handle rounding: https://cs50.harvard.edu/resources/cppreference.com/stdmath/round.html
+  change = change * 100;
+  int intChange = (int) round(change);
 
   do
   {
-    if (change >= 0.01)
+    if (intChange >= 25)
     {
-      change = change - 0.01;
+      intChange = intChange - 25;
+      quarters++;
+    }
+  }
+  while (intChange >= 25);
+  do
+  {
+    if (intChange >= 10)
+    {
+      intChange = intChange - 10;
+      dimes++;
+    }
+  }
+  while (intChange >= 10);
+  
+  do
+  {
+    if (intChange >= 05)
+    {
+      intChange = intChange - 05;
+      nickels++;
+    }
+  }
+  while (intChange >= 05);
+
+  do
+  {
+    if (intChange >= 01)
+    {
+      intChange = intChange - 01;
       pennies++;
     }
   }
-  while (change >= 0.01);
+  while (intChange >= 01);
 
   printf("%i quarters\n%i dimes\n%i nickels\n%i pennies\n", quarters, dimes, nickels, pennies);
 }
